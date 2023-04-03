@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import vs from "./glsl/noisePlane.vs";
-import fs from "./glsl/noisePlane.fs";
+import vs from "./glsl/NoisePlane.vs?raw";
+import fs from "./glsl/NoisePlane.fs?raw";
 
 export class NoisePlane extends THREE.Mesh {
   constructor() {
