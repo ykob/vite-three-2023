@@ -1,19 +1,25 @@
 import "./style.css";
 import * as THREE from "three";
+import { NoisePlane } from "./object";
 
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
 const renderer = new THREE.WebGLRenderer({ canvas });
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
+const noisePlane = new NoisePlane();
 
 const resize = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
   renderer.setSize(width, height, false);
-  camera.aspect = width / height;
+  camera.left = -width / height;
+  camera.right = width / height;
+  camera.top = 1;
+  camera.bottom = -1;
   camera.updateProjectionMatrix();
+  noisePlane.resize(width / height);
 };
 
 const update = () => {
@@ -22,12 +28,9 @@ const update = () => {
 };
 
 const init = () => {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 });
-  const cube = new THREE.Mesh(geometry, material);
-
-  scene.add(cube);
+  scene.add(noisePlane);
   camera.position.z = 2;
+  camera.lookAt(0, 0, 0);
 
   resize();
   update();
