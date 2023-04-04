@@ -3,7 +3,7 @@ import vs from "./glsl/NoisePlane.vs?raw";
 import fs from "./glsl/NoisePlane.fs?raw";
 
 export class NoisePlane extends THREE.Mesh<
-  THREE.BufferGeometry,
+  THREE.PlaneGeometry,
   THREE.RawShaderMaterial
 > {
   constructor() {
