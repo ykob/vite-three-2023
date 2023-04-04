@@ -5,9 +5,12 @@ import { NoisePlane } from "./object";
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
 const renderer = new THREE.WebGLRenderer({ canvas });
+const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
 const noisePlane = new NoisePlane();
+
+clock.autoStart = false;
 
 const resize = () => {
   const width = window.innerWidth;
@@ -23,11 +26,15 @@ const resize = () => {
 };
 
 const update = () => {
+  const time = clock.getDelta();
+
   renderer.render(scene, camera);
+  noisePlane.update(time);
   requestAnimationFrame(update);
 };
 
 const init = () => {
+  clock.start();
   scene.add(noisePlane);
   camera.position.z = 2;
   camera.lookAt(0, 0, 0);

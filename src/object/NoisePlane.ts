@@ -12,7 +12,7 @@ export class NoisePlane extends THREE.Mesh<
       vertexShader: vs,
       fragmentShader: fs,
       uniforms: {
-        time: { value: 0 },
+        uTime: { value: 0 },
       },
     });
     super(geometry, material);
@@ -21,6 +21,6 @@ export class NoisePlane extends THREE.Mesh<
     this.scale.set(width, 1, 1);
   }
   update(time: number) {
-    this.material.uniforms.time.value += time;
+    this.material.uniforms.uTime.value += time;
   }
 }
