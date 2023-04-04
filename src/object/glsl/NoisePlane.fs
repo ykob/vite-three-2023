@@ -1,5 +1,7 @@
 precision highp float;
 
+uniform float uTime;
+
 varying vec3 vPosition;
 varying vec2 vUv;
 
@@ -8,6 +10,6 @@ float calcWhiteNoise(vec2 uv, float scale) {
 }
 
 void main() {
-  float noise = calcWhiteNoise(vUv, 1.0);
-  gl_FragColor = vec4(vec3(noise), 1.0);
+  float noise = calcWhiteNoise(vPosition.xy + sin(uTime), 1.0);
+  gl_FragColor = vec4(vec3(vUv.x, 0.0, vUv.y) * 0.8 + vec3(noise) * 0.3, 1.0);
 }
