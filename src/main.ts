@@ -1,6 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
-import { NoisePlane } from "./object";
+import { InstancedCircle, NoisePlane } from "./object";
 
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
@@ -8,6 +8,7 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
+const instancedCircle = new InstancedCircle();
 const noisePlane = new NoisePlane();
 
 clock.autoStart = false;
@@ -34,10 +35,13 @@ const update = () => {
 };
 
 const init = () => {
-  clock.start();
+  instancedCircle.init();
+  noisePlane.position.setZ(-1);
+  scene.add(instancedCircle);
   scene.add(noisePlane);
   camera.position.z = 2;
   camera.lookAt(0, 0, 0);
+  clock.start();
 
   resize();
   update();
