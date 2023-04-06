@@ -30,6 +30,7 @@ const update = () => {
   const time = clock.getDelta();
 
   renderer.render(scene, camera);
+  instancedCircle.update(time);
   noisePlane.update(time);
   requestAnimationFrame(update);
 };
