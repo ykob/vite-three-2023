@@ -14,6 +14,14 @@ const noisePlane = new NoisePlane();
 
 clock.autoStart = false;
 
+const debounce = (func: () => void, wait: number) => {
+  let timeout: number;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, wait);
+  };
+};
+
 const resize = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -58,9 +66,7 @@ window.addEventListener("mousemove", (e) => {
 
   instancedCircle.dropCircle(x, y);
 });
-window.addEventListener("resize", () => {
-  resize();
-});
+window.addEventListener("resize", debounce(resize, 100));
 
 const contentDom = document.getElementById("content");
 
