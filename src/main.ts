@@ -6,6 +6,7 @@ const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
 const renderer = new THREE.WebGLRenderer({ canvas });
 const clock = new THREE.Clock();
+const resolution = new THREE.Vector2();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
 const instancedCircle = new InstancedCircle();
@@ -18,6 +19,7 @@ const resize = () => {
   const height = window.innerHeight;
 
   renderer.setSize(width, height, false);
+  resolution.set(width, height);
   camera.left = -width / height;
   camera.right = width / height;
   camera.top = 1;
@@ -36,7 +38,6 @@ const update = () => {
 };
 
 const init = () => {
-  instancedCircle.init();
   noisePlane.position.setZ(-1);
   scene.add(instancedCircle);
   scene.add(noisePlane);
@@ -50,13 +51,21 @@ const init = () => {
 
 init();
 
+window.addEventListener("mousemove", (e) => {
+  const { clientX, clientY } = e;
+  const x = ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
+  const y = -(clientY / resolution.y) * 2 + 1;
+
+  instancedCircle.dropCircle(x, y);
+});
 window.addEventListener("resize", () => {
   resize();
 });
 
 const contentDom = document.getElementById("content");
 
-if (contentDom) contentDom.innerHTML = `
+if (contentDom)
+  contentDom.innerHTML = `
 <img
   class="vite-logo"
   src="vite.svg"

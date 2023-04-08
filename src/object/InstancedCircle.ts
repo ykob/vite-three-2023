@@ -9,6 +9,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
   THREE.RawShaderMaterial
 > {
   currentIndex = 0;
+  dummy = new THREE.Object3D();
 
   constructor() {
     const geometry = new THREE.PlaneGeometry(0.1, 0.1, 1, 1);
@@ -24,16 +25,6 @@ export class InstancedCircle extends THREE.InstancedMesh<
     });
     super(geometry, material, AMOUNT);
   }
-  init() {
-    const dummy = new THREE.Object3D();
-
-    for (let i = 0; i < AMOUNT; i++) {
-      dummy.position.set(Math.random() * 2 - 1, Math.random() * 2 - 1, 0);
-      dummy.updateMatrix();
-      this.setMatrixAt(i, dummy.matrix);
-    }
-    this.instanceMatrix.needsUpdate = true;
-  }
   update(time: number) {
     const { time: timeAttribute } = this.geometry.attributes as {
       time: THREE.InstancedBufferAttribute;
@@ -43,5 +34,22 @@ export class InstancedCircle extends THREE.InstancedMesh<
       timeAttribute.setX(i, timeAttribute.getX(i) + time);
     }
     timeAttribute.needsUpdate = true;
+  }
+  dropCircle(x: number, y: number) {
+    const { time: timeAttribute } = this.geometry.attributes as {
+      time: THREE.InstancedBufferAttribute;
+    };
+
+    timeAttribute.setX(this.currentIndex, 0);
+    timeAttribute.needsUpdate = true;
+    this.dummy.position.set(x, y, 0);
+    this.dummy.updateMatrix();
+    this.setMatrixAt(this.currentIndex, this.dummy.matrix);
+    this.instanceMatrix.needsUpdate = true;
+
+    this.currentIndex++;
+    if (this.currentIndex >= AMOUNT) {
+      this.currentIndex = 0;
+    }
   }
 }
