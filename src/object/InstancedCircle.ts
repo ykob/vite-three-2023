@@ -23,6 +23,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
       vertexShader: vs,
       fragmentShader: fs,
     });
+
     super(geometry, material, AMOUNT);
   }
   update(time: number) {
@@ -46,7 +47,6 @@ export class InstancedCircle extends THREE.InstancedMesh<
     this.dummy.updateMatrix();
     this.setMatrixAt(this.currentIndex, this.dummy.matrix);
     this.instanceMatrix.needsUpdate = true;
-
     this.currentIndex++;
     if (this.currentIndex >= AMOUNT) {
       this.currentIndex = 0;
