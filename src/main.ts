@@ -22,6 +22,19 @@ const debounce = (func: () => void, wait: number) => {
   };
 };
 
+const throttle = (func: (e?: any) => void, wait: number) => {
+  let timeout: number;
+  return (e: any) => {
+    if (!timeout) {
+      timeout = setTimeout(() => {
+        timeout = 0;
+        console.log(timeout);
+        func(e);
+      }, wait);
+    }
+  };
+};
+
 const resize = () => {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -59,13 +72,14 @@ const init = () => {
 
 init();
 
-window.addEventListener("mousemove", (e) => {
+window.addEventListener("mousemove", throttle((e: MouseEvent) => {
   const { clientX, clientY } = e;
-  const x = ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
+  const x =
+    ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
   const y = -(clientY / resolution.y) * 2 + 1;
 
   instancedCircle.dropCircle(x, y);
-});
+}, 10));
 window.addEventListener("resize", debounce(resize, 100));
 
 const contentDom = document.getElementById("content");
