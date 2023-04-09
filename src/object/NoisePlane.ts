@@ -6,13 +6,14 @@ export class NoisePlane extends THREE.Mesh<
   THREE.PlaneGeometry,
   THREE.RawShaderMaterial
 > {
-  constructor() {
+  constructor(texture: THREE.Texture) {
     const geometry = new THREE.PlaneGeometry(2, 2, 1, 1);
     const material = new THREE.RawShaderMaterial({
       vertexShader: vs,
       fragmentShader: fs,
       uniforms: {
         uTime: { value: 0 },
+        uTexture: { value: texture },
       },
     });
     super(geometry, material);

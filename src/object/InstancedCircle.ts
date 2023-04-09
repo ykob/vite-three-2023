@@ -28,7 +28,6 @@ export class InstancedCircle extends THREE.InstancedMesh<
         duration: { value: DURATION },
       },
       transparent: true,
-      blending: THREE.AdditiveBlending,
     });
 
     super(geometry, material, AMOUNT);
@@ -60,8 +59,8 @@ export class InstancedCircle extends THREE.InstancedMesh<
     timeAttribute.setX(this.currentIndex, 0);
     timeAttribute.needsUpdate = true;
     this.dummy.position.set(
-      x + Math.cos(this.time * 20) * 0.06,
-      y + Math.sin(this.time * 20) * 0.06,
+      x + Math.cos(this.time * 10) * 0.15,
+      y + Math.sin(this.time * 10) * 0.15,
       0
     );
     this.dummy.updateMatrix();
