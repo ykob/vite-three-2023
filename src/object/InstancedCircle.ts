@@ -2,7 +2,8 @@ import * as THREE from "three";
 import vs from "./glsl/InstancedCircle.vs?raw";
 import fs from "./glsl/InstancedCircle.fs?raw";
 
-const AMOUNT = 100;
+const AMOUNT = 200;
+const DURATION = 1.4;
 
 export class InstancedCircle extends THREE.InstancedMesh<
   THREE.PlaneGeometry,
@@ -12,7 +13,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
   dummy = new THREE.Object3D();
 
   constructor() {
-    const geometry = new THREE.PlaneGeometry(0.1, 0.1, 1, 1);
+    const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
 
     geometry.setAttribute(
       "time",
@@ -22,9 +23,21 @@ export class InstancedCircle extends THREE.InstancedMesh<
     const material = new THREE.RawShaderMaterial({
       vertexShader: vs,
       fragmentShader: fs,
+      uniforms: {
+        duration: { value: DURATION },
+      },
+      transparent: true,
     });
 
     super(geometry, material, AMOUNT);
+
+    const { time: timeAttribute } = this.geometry.attributes as {
+      time: THREE.InstancedBufferAttribute;
+    };
+
+    for (let i = 0; i < AMOUNT; i++) {
+      timeAttribute.setX(i, DURATION);
+    }
   }
   update(time: number) {
     const { time: timeAttribute } = this.geometry.attributes as {
