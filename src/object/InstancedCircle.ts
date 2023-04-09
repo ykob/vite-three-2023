@@ -11,6 +11,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
 > {
   currentIndex = 0;
   dummy = new THREE.Object3D();
+  time = 0;
 
   constructor() {
     const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
@@ -49,6 +50,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
       timeAttribute.setX(i, timeAttribute.getX(i) + time);
     }
     timeAttribute.needsUpdate = true;
+    this.time += time;
   }
   dropCircle(x: number, y: number) {
     const { time: timeAttribute } = this.geometry.attributes as {
@@ -57,7 +59,11 @@ export class InstancedCircle extends THREE.InstancedMesh<
 
     timeAttribute.setX(this.currentIndex, 0);
     timeAttribute.needsUpdate = true;
-    this.dummy.position.set(x, y, 0);
+    this.dummy.position.set(
+      x + Math.cos(this.time * 20) * 0.06,
+      y + Math.sin(this.time * 20) * 0.06,
+      0
+    );
     this.dummy.updateMatrix();
     this.setMatrixAt(this.currentIndex, this.dummy.matrix);
     this.instanceMatrix.needsUpdate = true;

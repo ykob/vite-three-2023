@@ -11,6 +11,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
 const instancedCircle = new InstancedCircle();
 const noisePlane = new NoisePlane();
+const renderTarget = new THREE.WebGLRenderTarget();
 
 clock.autoStart = false;
 
@@ -40,6 +41,7 @@ const resize = () => {
   const height = window.innerHeight;
 
   renderer.setSize(width, height, false);
+  renderTarget.setSize(width, height);
   resolution.set(width, height);
   camera.left = -width / height;
   camera.right = width / height;
