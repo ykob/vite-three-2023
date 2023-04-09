@@ -27,6 +27,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
         duration: { value: DURATION },
       },
       transparent: true,
+      blending: THREE.AdditiveBlending,
     });
 
     super(geometry, material, AMOUNT);
