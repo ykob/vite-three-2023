@@ -29,7 +29,6 @@ const throttle = (func: (e?: any) => void, wait: number) => {
     if (!timeout) {
       timeout = setTimeout(() => {
         timeout = 0;
-        console.log(timeout);
         func(e);
       }, wait);
     }
