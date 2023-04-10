@@ -80,14 +80,28 @@ const init = () => {
 
 init();
 
-window.addEventListener("mousemove", throttle((e: MouseEvent) => {
-  const { clientX, clientY } = e;
-  const x =
-    ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
-  const y = -(clientY / resolution.y) * 2 + 1;
+window.addEventListener(
+  "mousemove",
+  throttle((e: MouseEvent) => {
+    const { clientX, clientY } = e;
+    const x =
+      ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
+    const y = -(clientY / resolution.y) * 2 + 1;
 
-  instancedCircle.dropCircle(x, y);
-}, 20));
+    instancedCircle.dropCircle(x, y);
+  }, 20)
+);
+window.addEventListener(
+  "touchmove",
+  throttle((e: TouchEvent) => {
+    const { clientX, clientY } = e.touches[0];
+    const x =
+      ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
+    const y = -(clientY / resolution.y) * 2 + 1;
+
+    instancedCircle.dropCircle(x, y);
+  }, 20)
+);
 window.addEventListener("resize", debounce(resize, 100));
 
 const contentDom = document.getElementById("content");
