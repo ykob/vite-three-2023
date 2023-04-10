@@ -36,6 +36,8 @@ const throttle = (func: (e?: any) => void, wait: number) => {
 };
 
 const resize = () => {
+  renderer.setSize(0, 0, false);
+
   const width = window.innerWidth;
   const height = window.innerHeight;
 

@@ -10,12 +10,19 @@ body {
   display: grid;
   place-content: center;
   place-items: center;
-  gap: 40px;
+  gap: min(8vw, 40px);
   position: absolute;
   z-index: 10;
 }
+.vite-logo {
+  width: 40vw;
+  height: 40vw;
+  max-width: 240px;
+  max-height: 240px;
+  display: block;
+}
 .title {
-  font-size: 3rem;
+  font-size: min(8vw, 3rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
