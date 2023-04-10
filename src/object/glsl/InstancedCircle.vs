@@ -20,7 +20,7 @@ float easeOutQuad(float t) {
 void main(void) {
   float s1 = easeOutQuad(clamp(time, 0.0, duration * 0.05) / (duration * 0.05));
   float s2 = easeOutQuad(clamp(time - duration * 0.2, 0.0, duration * 0.8) / (duration * 0.8));
-  vec4 mPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
+  vec4 mPosition = instanceMatrix * modelMatrix * vec4(position, 1.0);
 
   vPosition = mPosition.xyz;
   vUv = uv;

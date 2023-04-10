@@ -44,12 +44,14 @@ const resize = () => {
   renderer.setSize(width, height, false);
   renderTarget.setSize(width, height);
   resolution.set(width, height);
+
   camera.left = -width / height;
   camera.right = width / height;
   camera.top = 1;
   camera.bottom = -1;
   camera.updateProjectionMatrix();
   noisePlane.resize(width / height);
+  instancedCircle.resize(width / height);
 };
 
 const update = () => {

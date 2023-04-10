@@ -40,6 +40,10 @@ export class InstancedCircle extends THREE.InstancedMesh<
       timeAttribute.setX(i, DURATION);
     }
   }
+  resize(aspect: number) {
+    const scale = aspect > 1 ? 1 : 0.75;
+    this.scale.set(scale, scale, 1);
+  }
   update(time: number) {
     const { time: timeAttribute } = this.geometry.attributes as {
       time: THREE.InstancedBufferAttribute;
@@ -59,8 +63,8 @@ export class InstancedCircle extends THREE.InstancedMesh<
     timeAttribute.setX(this.currentIndex, 0);
     timeAttribute.needsUpdate = true;
     this.dummy.position.set(
-      x + Math.cos(this.time * 10) * 0.15,
-      y + Math.sin(this.time * 10) * 0.15,
+      x + Math.cos(this.time * 10) * 0.1 * this.scale.x,
+      y + Math.sin(this.time * 10) * 0.1 * this.scale.y,
       0
     );
     this.dummy.updateMatrix();
