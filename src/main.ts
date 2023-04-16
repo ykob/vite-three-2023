@@ -128,3 +128,5 @@ if (contentDom)
 />
 <div class="title">Vite + three.js</div>
 `;
+
+export {};
