@@ -98,9 +98,13 @@ window.addEventListener(
     instancedCircle.dropCircle(x, y);
   }, 20)
 );
-window.addEventListener("touchstart", (e: TouchEvent) => {
-  e.preventDefault();
-});
+window.addEventListener(
+  "touchstart",
+  (e: TouchEvent) => {
+    e.preventDefault();
+  },
+  { passive: false }
+);
 window.addEventListener(
   "touchmove",
   throttle((e: TouchEvent) => {
