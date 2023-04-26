@@ -12,7 +12,6 @@ export class NoisePlane extends THREE.Mesh<
       vertexShader: vs,
       fragmentShader: fs,
       uniforms: {
-        uResolution: { value: new THREE.Vector2() },
         uTime: { value: 0 },
         uTexture: { value: texture },
       },
@@ -21,7 +20,6 @@ export class NoisePlane extends THREE.Mesh<
   }
   resize(width: number, height: number) {
     this.scale.set(width / height, 1, 1);
-    this.material.uniforms.uResolution.value.set(width, height);
   }
   update(time: number) {
     this.material.uniforms.uTime.value += time;
