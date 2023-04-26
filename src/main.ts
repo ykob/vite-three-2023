@@ -50,7 +50,7 @@ const resize = () => {
   camera.top = 1;
   camera.bottom = -1;
   camera.updateProjectionMatrix();
-  noisePlane.resize(width / height);
+  noisePlane.resize(resolution.x, resolution.y);
   instancedCircle.resize(width / height);
 };
 
