@@ -12,7 +12,7 @@ float calcWhiteNoise(vec2 uv, float scale) {
 
 void main() {
   vec4 color = texture2D(uTexture, vUv);
-  float noise = calcWhiteNoise(floor(gl_FragCoord.xy * 0.2) / 1000.0 + sin(uTime), 1.0);
+  float noise = calcWhiteNoise(floor(gl_FragCoord.xy * 0.24) / 1000.0 + sin(uTime), 1.0);
   float noiseV1 = calcWhiteNoise(floor((gl_FragCoord.xy * 0.02) * vec2(0.0, 1.0)) / 1000.0 + sin(uTime), 1.0);
   float noiseV2 = calcWhiteNoise(floor((gl_FragCoord.xy * 0.1) * vec2(0.0, 1.0)) / 1000.0 + cos(uTime), 1.0);
   float noiseL = calcWhiteNoise(floor((gl_FragCoord.xy * (2.0 + sin(uTime * 200.0)) * 0.01 + uTime * 10.0) * vec2(0.14 + cos(uTime * 300.0) * 0.04, 1.0)) / 1000.0 + sin(uTime * 0.1), 1.0);
