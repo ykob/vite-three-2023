@@ -96,7 +96,7 @@ window.addEventListener(
     const y = -(clientY / resolution.y) * 2 + 1;
 
     instancedCircle.dropCircle(x, y);
-  }, 20)
+  }, 10)
 );
 window.addEventListener(
   "touchstart",
@@ -114,7 +114,7 @@ window.addEventListener(
     const y = -(clientY / resolution.y) * 2 + 1;
 
     instancedCircle.dropCircle(x, y);
-  }, 20)
+  }, 10)
 );
 window.addEventListener("resize", debounce(resize, 100));
 

@@ -3,7 +3,7 @@ import vs from "./glsl/InstancedCircle.vs?raw";
 import fs from "./glsl/InstancedCircle.fs?raw";
 
 const AMOUNT = 200;
-const DURATION = 1.4;
+const DURATION = 2.4;
 
 export class InstancedCircle extends THREE.InstancedMesh<
   THREE.PlaneGeometry,
@@ -14,7 +14,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
   time = 0;
 
   constructor() {
-    const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+    const geometry = new THREE.PlaneGeometry(0.6, 0.6, 1, 1);
 
     geometry.setAttribute(
       "time",
@@ -27,7 +27,7 @@ export class InstancedCircle extends THREE.InstancedMesh<
       uniforms: {
         duration: { value: DURATION },
       },
-      transparent: true,
+      blending: THREE.AdditiveBlending,
     });
 
     super(geometry, material, AMOUNT);
@@ -63,8 +63,8 @@ export class InstancedCircle extends THREE.InstancedMesh<
     timeAttribute.setX(this.currentIndex, 0);
     timeAttribute.needsUpdate = true;
     this.dummy.position.set(
-      x + Math.cos(this.time * 10) * 0.1 * this.scale.x,
-      y + Math.sin(this.time * 10) * 0.1 * this.scale.y,
+      x + (Math.random() * 2 - 1) * 0.15 * this.scale.x,
+      y + (Math.random() * 2 - 1) * 0.15 * this.scale.y,
       0
     );
     this.dummy.updateMatrix();
