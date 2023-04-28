@@ -39,7 +39,7 @@ const resize = () => {
   renderer.setSize(0, 0, false);
 
   const width = window.innerWidth;
-  const height = window.innerHeight;
+  const height = document.documentElement.clientHeight;
 
   renderer.setSize(width, height, false);
   renderTarget.setSize(width, height);
