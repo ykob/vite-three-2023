@@ -1,6 +1,7 @@
 import "./style.css";
 import * as THREE from "three";
 import { InstancedCircle, NoisePlane } from "./object";
+import { debounce, throttle } from "./utils";
 
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
@@ -14,26 +15,6 @@ const instancedCircle = new InstancedCircle();
 const noisePlane = new NoisePlane(renderTarget.texture);
 
 clock.autoStart = false;
-
-const debounce = (func: () => void, wait: number) => {
-  let timeout: number;
-  return () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(func, wait);
-  };
-};
-
-const throttle = (func: (e?: any) => void, wait: number) => {
-  let timeout: number;
-  return (e: any) => {
-    if (!timeout) {
-      timeout = setTimeout(() => {
-        timeout = 0;
-        func(e);
-      }, wait);
-    }
-  };
-};
 
 const resize = () => {
   renderer.setSize(0, 0, false);
