@@ -3,6 +3,7 @@ precision highp float;
 uniform float uTime;
 uniform sampler2D uTexture;
 
+uniform float uGlitchStep;
 varying vec3 vPosition;
 varying vec2 vUv;
 
@@ -16,13 +17,14 @@ void main() {
   float noiseV1 = calcWhiteNoise(floor((gl_FragCoord.xy * 0.02) * vec2(0.0, 1.0)) / 1000.0 + sin(uTime), 1.0);
   float noiseV2 = calcWhiteNoise(floor((gl_FragCoord.xy * 0.1) * vec2(0.0, 1.0)) / 1000.0 + cos(uTime), 1.0);
   float noiseL = calcWhiteNoise(floor((gl_FragCoord.xy * (2.0 + sin(uTime * 200.0)) * 0.01 + uTime * 10.0) * vec2(0.14 + cos(uTime * 300.0) * 0.04, 1.0)) / 1000.0 + sin(uTime * 0.1), 1.0);
+  float glitchStep = smoothstep(0.9, 0.91, uGlitchStep);
   gl_FragColor = vec4(
     vec3(vUv.x, 0.0, vUv.y) * 0.8
       + color.rgb
       + noise * 0.18
-      + smoothstep(0.99, 1.0, noiseV1) * 0.1
-      + smoothstep(0.95, 1.0, noiseV2) * 0.1
-      + smoothstep(0.96, 1.0, noiseL) * 0.1,
+      + smoothstep(0.99 - glitchStep * 0.1, 1.0, noiseV1) * 0.1
+      + smoothstep(0.96 - glitchStep * 0.2, 1.0, noiseV2) * 0.1
+      + smoothstep(0.98 - glitchStep * 0.2, 1.0, noiseL) * 0.1,
     1.0
     );
 }
