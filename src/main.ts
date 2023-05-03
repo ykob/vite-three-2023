@@ -11,8 +11,11 @@ const clock = new THREE.Clock();
 const resolution = new THREE.Vector2();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
+const texLoader = new THREE.TextureLoader();
 const instancedCircle = new InstancedCircle();
 const noisePlane1 = new NoisePlane1(renderTarget.texture);
+
+let isReady = false;
 
 clock.autoStart = false;
 
@@ -36,18 +39,20 @@ const resize = () => {
 };
 
 const update = () => {
-  const time = clock.getDelta();
+  if (isReady) {
+    const time = clock.getDelta();
 
-  instancedCircle.update(time);
-  noisePlane1.update(time);
-  instancedCircle.visible = true;
-  noisePlane1.visible = false;
-  renderer.setRenderTarget(renderTarget);
-  renderer.render(scene, camera);
-  instancedCircle.visible = false;
-  noisePlane1.visible = true;
-  renderer.setRenderTarget(null);
-  renderer.render(scene, camera);
+    instancedCircle.update(time);
+    noisePlane1.update(time);
+    instancedCircle.visible = true;
+    noisePlane1.visible = false;
+    renderer.setRenderTarget(renderTarget);
+    renderer.render(scene, camera);
+    instancedCircle.visible = false;
+    noisePlane1.visible = true;
+    renderer.setRenderTarget(null);
+    renderer.render(scene, camera);
+  }
   requestAnimationFrame(update);
 };
 
@@ -58,7 +63,16 @@ const init = () => {
   camera.position.z = 2;
   camera.lookAt(0, 0, 0);
   clock.start();
+  texLoader.loadAsync("noise.jpg").then((texture) => {
+    const elem = document.getElementById("source");
 
+    if (elem) {
+      elem.style.opacity = "1";
+    }
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    isReady = true;
+  });
   resize();
   update();
 };
@@ -76,6 +90,7 @@ window.addEventListener(
       ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
     const y = -(clientY / resolution.y) * 2 + 1;
 
+    if (!isReady) return;
     instancedCircle.dropCircle(x, y);
   }, 10)
 );
@@ -94,6 +109,7 @@ window.addEventListener(
       ((clientX / resolution.x) * 2 - 1) * (resolution.x / resolution.y);
     const y = -(clientY / resolution.y) * 2 + 1;
 
+    if (!isReady) return;
     instancedCircle.dropCircle(x, y);
   }, 10)
 );
