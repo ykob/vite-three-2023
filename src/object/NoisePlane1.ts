@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import vs from "./glsl/NoisePlane.vs?raw";
-import fs from "./glsl/NoisePlane.fs?raw";
+import vs from "./glsl/NoisePlane1.vs?raw";
+import fs from "./glsl/NoisePlane1.fs?raw";
 
-export class NoisePlane extends THREE.Mesh<
+export class NoisePlane1 extends THREE.Mesh<
   THREE.PlaneGeometry,
   THREE.RawShaderMaterial
 > {

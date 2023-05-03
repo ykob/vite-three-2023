@@ -1,6 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
-import { InstancedCircle, NoisePlane } from "./object";
+import { InstancedCircle, NoisePlane1 } from "./object";
 import { debounce, throttle } from "./utils";
 
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
@@ -12,7 +12,7 @@ const resolution = new THREE.Vector2();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
 const instancedCircle = new InstancedCircle();
-const noisePlane = new NoisePlane(renderTarget.texture);
+const noisePlane1 = new NoisePlane1(renderTarget.texture);
 
 clock.autoStart = false;
 
@@ -31,7 +31,7 @@ const resize = () => {
   camera.top = 1;
   camera.bottom = -1;
   camera.updateProjectionMatrix();
-  noisePlane.resize(resolution.x, resolution.y);
+  noisePlane1.resize(resolution.x, resolution.y);
   instancedCircle.resize(width / height);
 };
 
@@ -39,22 +39,22 @@ const update = () => {
   const time = clock.getDelta();
 
   instancedCircle.update(time);
-  noisePlane.update(time);
+  noisePlane1.update(time);
   instancedCircle.visible = true;
-  noisePlane.visible = false;
+  noisePlane1.visible = false;
   renderer.setRenderTarget(renderTarget);
   renderer.render(scene, camera);
   instancedCircle.visible = false;
-  noisePlane.visible = true;
+  noisePlane1.visible = true;
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
   requestAnimationFrame(update);
 };
 
 const init = () => {
-  noisePlane.position.setZ(-1);
+  noisePlane1.position.setZ(-1);
   scene.add(instancedCircle);
-  scene.add(noisePlane);
+  scene.add(noisePlane1);
   camera.position.z = 2;
   camera.lookAt(0, 0, 0);
   clock.start();

@@ -1,2 +1,2 @@
 export { InstancedCircle } from "./InstancedCircle";
-export { NoisePlane } from "./NoisePlane";
+export { NoisePlane1 } from "./NoisePlane1";
