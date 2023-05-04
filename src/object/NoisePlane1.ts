@@ -9,7 +9,7 @@ export class NoisePlane1 extends THREE.Mesh<
   timeFps = 0;
   timeGlitchStep = 0;
 
-  constructor(texture: THREE.Texture) {
+  constructor() {
     const geometry = new THREE.PlaneGeometry(2, 2, 1, 1);
     const material = new THREE.RawShaderMaterial({
       vertexShader: vs,
@@ -17,7 +17,6 @@ export class NoisePlane1 extends THREE.Mesh<
       uniforms: {
         uGlitchStep: { value: 0 },
         uTime: { value: 0 },
-        uTexture: { value: texture },
       },
     });
     super(geometry, material);

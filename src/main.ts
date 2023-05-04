@@ -1,19 +1,24 @@
 import "./style.css";
 import * as THREE from "three";
-import { InstancedCircle, NoisePlane1 } from "./object";
+import { InstancedCircle, NoisePlane1, NoisePlane2 } from "./object";
 import { debounce, throttle } from "./utils";
 
 const canvas = document.getElementById("canvas-webgl") as HTMLCanvasElement;
 
 const renderer = new THREE.WebGLRenderer({ canvas });
-const renderTarget = new THREE.WebGLRenderTarget();
+const renderTarget1 = new THREE.WebGLRenderTarget();
+const renderTarget2 = new THREE.WebGLRenderTarget();
 const clock = new THREE.Clock();
 const resolution = new THREE.Vector2();
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 100);
 const texLoader = new THREE.TextureLoader();
 const instancedCircle = new InstancedCircle();
-const noisePlane1 = new NoisePlane1(renderTarget.texture);
+const noisePlane1 = new NoisePlane1();
+const noisePlane2 = new NoisePlane2(
+  renderTarget1.texture,
+  renderTarget2.texture
+);
 
 let isReady = false;
 
@@ -26,7 +31,8 @@ const resize = () => {
   const height = document.documentElement.clientHeight;
 
   renderer.setSize(width, height, false);
-  renderTarget.setSize(width, height);
+  renderTarget1.setSize(width, height);
+  renderTarget2.setSize(width, height);
   resolution.set(width, height);
 
   camera.left = -width / height;
@@ -35,6 +41,7 @@ const resize = () => {
   camera.bottom = -1;
   camera.updateProjectionMatrix();
   noisePlane1.resize(resolution.x, resolution.y);
+  noisePlane2.resize(resolution.x, resolution.y);
   instancedCircle.resize(width / height);
 };
 
@@ -44,12 +51,18 @@ const update = () => {
 
     instancedCircle.update(time);
     noisePlane1.update(time);
+    noisePlane2.update(time);
     instancedCircle.visible = true;
     noisePlane1.visible = false;
-    renderer.setRenderTarget(renderTarget);
+    noisePlane2.visible = false;
+    renderer.setRenderTarget(renderTarget1);
     renderer.render(scene, camera);
     instancedCircle.visible = false;
     noisePlane1.visible = true;
+    renderer.setRenderTarget(renderTarget2);
+    renderer.render(scene, camera);
+    noisePlane1.visible = false;
+    noisePlane2.visible = true;
     renderer.setRenderTarget(null);
     renderer.render(scene, camera);
   }
@@ -58,19 +71,17 @@ const update = () => {
 
 const init = () => {
   noisePlane1.position.setZ(-1);
+  noisePlane2.position.setZ(-1);
   scene.add(instancedCircle);
   scene.add(noisePlane1);
+  scene.add(noisePlane2);
   camera.position.z = 2;
   camera.lookAt(0, 0, 0);
   clock.start();
   texLoader.loadAsync("noise.jpg").then((texture) => {
-    const elem = document.getElementById("source");
-
-    if (elem) {
-      elem.style.opacity = "1";
-    }
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
+    noisePlane2.setNoiseTexture(texture);
     isReady = true;
   });
   resize();
