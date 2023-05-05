@@ -1,8 +1,8 @@
 precision highp float;
 
+uniform float uGlitchStep;
 uniform float uTime;
 
-uniform float uGlitchStep;
 varying vec3 vPosition;
 varying vec2 vUv;
 
