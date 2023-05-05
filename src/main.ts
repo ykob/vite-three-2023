@@ -23,6 +23,9 @@ const noisePlane2 = new NoisePlane2(
 let isReady = false;
 
 clock.autoStart = false;
+renderer.setClearColor(0x000000, 0.0);
+renderTarget2.texture.wrapS = THREE.RepeatWrapping;
+renderTarget2.texture.wrapT = THREE.RepeatWrapping;
 
 const resize = () => {
   renderer.setSize(0, 0, false);
