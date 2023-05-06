@@ -14,10 +14,11 @@ export class NoisePlane2 extends THREE.Mesh<
       vertexShader: vs,
       fragmentShader: fs,
       uniforms: {
-        uTime: { value: 0 },
+        uGlitchStep: { value: 0 },
         uTextureNoise: { value: null },
         uTextureTarget1: { value: texture1 },
         uTextureTarget2: { value: texture2 },
+        uTime: { value: 0 },
       },
       transparent: true,
     });
